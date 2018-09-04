@@ -1,0 +1,49 @@
+{% load staticfiles %}
+{##1 声明引入静态文件的标签#}
+
+<div class="container">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://www.itdiffer.com">
+                <img src="{% static 'images/logo.png' %}" width="100px">
+                {#2 引入某个静态文件#}
+            </a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav" role="navigation">
+                <li><a href="{% url 'blog:blog_title' %}">BLOG</a></li>
+                {#3 namespace 和相关应用中的name值，拼接成该应用的入口链接URL#}
+            </ul>
+            <ul class="nav navbar-nav navbar-right" style="margin-right: 10px">
+                {% if user.is_authenticated %}
+                <li>
+                    <div class="dropdown" style="margin-top: 8px">
+                        欢迎您:
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMene" data-toggle="dropdown">
+                            {{ user.username }}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{% url 'account:password_change' %}">修改密码</a>
+                            </li>
+                        </ul>
+                    </div>
+{#                    <a href="#">欢迎您：{{ user.username }}</a>#}
+                </li>
+                <li>
+                    <a href="{% url 'account:user_logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="{% url 'account:user_login' %}">LOGIN</a>
+                </li>
+                {#不是硬编码-http://127.0.0.1:8000/account/login/ ，域名的修改-这种可以满足部署生产环境或者随意迁移的需要#}
+                {#url 标签会引导程序到 mysite/urls.py 和account/urls.py 中寻找#}
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+</div>
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
